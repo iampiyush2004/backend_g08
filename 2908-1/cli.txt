@@ -1,0 +1,254 @@
+Microsoft Windows [Version 10.0.22631.4037]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\iampi>mongosh
+Current Mongosh Log ID: 66d02fee2ce1c0a8c82710bb
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.0
+Using MongoDB:          7.0.14
+Using Mongosh:          2.3.0
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-08-27T14:31:29.754+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use chitkara
+switched to db chitkara
+chitkara> db.user.find
+[Function: find] AsyncFunction {
+  returnsPromise: true,
+  apiVersions: [ 1, Infinity ],
+  returnType: 'Cursor',
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+chitkara> show dbs
+admin      40.00 KiB
+chitkara  256.00 KiB
+config     96.00 KiB
+local      40.00 KiB
+chitkara> use chitkara
+already on db chitkara
+chitkara> db.user.find()
+[
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710ce'),
+    name: 'P5',
+    age: 45,
+    rating: 66,
+    subject: 'Maths'
+  },
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710cf'),
+    name: 'P5',
+    age: 80,
+    rating: 90,
+    subject: 'sc'
+  },
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710d0'),
+    name: 'P5',
+    age: 50,
+    rating: 99,
+    subject: 'sst'
+  },
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710d1'),
+    name: 'P5',
+    age: 18,
+    rating: 23,
+    subject: 'eng'
+  }
+]
+chitkara> db.user.find( {age : {$gte : 18} , marks : {gte : 80}})
+
+chitkara> db.user.find( {age : {$gte : 18} , rating : {gte : 80}})
+
+chitkara> db.student.find( {age : {$gte : 18} , marks : {gte : 80}})
+
+chitkara>  db.students.find( {age : {$gte : 18} , marks : {$gte : 80}})
+[
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c3'),
+    name: 'P5',
+    age: 20,
+    marks: 90,
+    subject: 'DataScience'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c4'),
+    name: 'P5',
+    age: 20,
+    marks: 90,
+    subject: 'DataScience'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c5'),
+    name: 'P5',
+    age: 21,
+    marks: 90,
+    subject: 'DataScience'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c6'),
+    name: 'P5',
+    age: 20,
+    marks: 90,
+    subject: 'DataScience'
+  }
+]
+chitkara> db.user.find( {age : {$gte : 18} , marks : {$gte : 80}})
+
+chitkara> db.user.find( {age : {$gte : 18} , rating : {$gte : 80}})
+[
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710cf'),
+    name: 'P5',
+    age: 80,
+    rating: 90,
+    subject: 'sc'
+  },
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710d0'),
+    name: 'P5',
+    age: 50,
+    rating: 99,
+    subject: 'sst'
+  }
+]
+chitkara> db.user.updateMany({marks : { $gte : 90 } , {grade : {$set : "A++"}})
+Uncaught:
+SyntaxError: Unexpected token (1:44)
+
+> 1 | db.user.updateMany({marks : { $gte : 90 } , {grade : {$set : "A++"}})
+    |                                             ^
+  2 |
+
+chitkara> db.user.updateMany({marks : { $gte : 90 } , grade : {$set : "A++"}})
+MongoInvalidArgumentError: Update document requires atomic operators
+chitkara> db.user.updateMany({marks : { $gte : 90 } , { $set : {grade : "A++"}})
+Uncaught:
+SyntaxError: Unexpected token (1:44)
+
+> 1 | db.user.updateMany({marks : { $gte : 90 } , { $set : {grade : "A++"}})
+    |                                             ^
+  2 |
+
+chitkara> db.user.updateMany({marks : { $gte : 90 }} , { $set : {grade : "A++"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+chitkara> db.students.updateMany({marks : { $gte : 90 } , { $set : {grade : "A++"}})
+Uncaught:
+SyntaxError: Unexpected token (1:48)
+
+> 1 | db.students.updateMany({marks : { $gte : 90 } , { $set : {grade : "A++"}})
+    |                                                 ^
+  2 |
+
+chitkara> db.students.updateMany({marks : { $gte : 90 }} , { $set : {grade : "A++"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+chitkara> db.students.find()
+[
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c2'),
+    name: 'P5',
+    age: 20,
+    marks: 60,
+    subject: 'DataScience'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c3'),
+    name: 'P5',
+    age: 20,
+    marks: 90,
+    subject: 'DataScience',
+    grade: 'A++'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c4'),
+    name: 'P5',
+    age: 20,
+    marks: 90,
+    subject: 'DataScience',
+    grade: 'A++'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c5'),
+    name: 'P5',
+    age: 21,
+    marks: 90,
+    subject: 'DataScience',
+    grade: 'A++'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c6'),
+    name: 'P5',
+    age: 20,
+    marks: 90,
+    subject: 'DataScience',
+    grade: 'A++'
+  },
+  {
+    _id: ObjectId('66cee6f7c9c7a144e52710c7'),
+    name: 'P5',
+    age: 16,
+    marks: 90,
+    subject: 'DataScience',
+    grade: 'A++'
+  },
+  {
+    _id: ObjectId('66ceef71c9c7a144e52710d4'),
+    date: ISODate('2024-08-28T09:35:45.505Z'),
+    subject: 'DataScience'
+  }
+]
+chitkara> db.user.find( { $and : [{ age : { $gte : 18 }} , {age : { $ne : 22}}]} )
+[
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710ce'),
+    name: 'P5',
+    age: 45,
+    rating: 66,
+    subject: 'Maths'
+  },
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710cf'),
+    name: 'P5',
+    age: 80,
+    rating: 90,
+    subject: 'sc'
+  },
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710d0'),
+    name: 'P5',
+    age: 50,
+    rating: 99,
+    subject: 'sst'
+  },
+  {
+    _id: ObjectId('66cee7fec9c7a144e52710d1'),
+    name: 'P5',
+    age: 18,
+    rating: 23,
+    subject: 'eng'
+  }
+]
